@@ -1,0 +1,90 @@
+Certainly, I'll explain each line of the "Modal View" section of the code:
+
+```javascript
+/**
+ * modalView
+ */
+fnObj.modalView01 = axboot.viewExtend(axboot.modal, {
+
+    initView: function () {
+        var _this = this;
+    },
+
+    modalOpen: function (data) {
+        console.log(data)
+        var _this = this;
+        var params = "";
+
+        // callType => C: Create, E: Modify, R: Read
+        if (data.callType === "C") {
+            params = "callType=" + data.callType;
+        } else {
+            params = "callType=" + data.callType + "&deptCd=" + data.deptCd + "&useYn=" + data.useYn + "&deptNm=" + data.deptNm + "&upperDeptCd=" + data.upperDeptCd +
+                     "&deptUserCd=" + data.deptUserCd;
+        }
+        console.log("Param",params);
+
+        // Create a Kendo Window with an iframe as its content
+        _this.arjun = $("<div><iframe class='k-content-frame' src='/jsp/IND/arjun1.jsp?" + params + "' frameborder=\"0\" framespacing=\"0\" style=\"width:100%;height:100%;display:block;\"></div>").kendoWindow({
+            height: "350px",
+            width: "550px",
+            title: LANG("mes.txt.depModal"),
+            modal: true
+        });
+
+        // Center and open the modal window
+        _this.arjun.data("kendoWindow").center().open();
+    },
+
+    modalClose: function(data){
+        var _this = this;
+        // Close the modal window
+        _this.arjun.data("kendoWindow").center().close();
+    }
+});
+```
+
+Here's an explanation of each part of the "Modal View" section:
+
+1. `fnObj.modalView01 = axboot.viewExtend(axboot.modal, { ... });`: Extends the base `axboot.modal` view to create a custom modal view named `modalView01`.
+
+2. `initView: function () { ... },`: Defines an empty `initView` function. This function is meant to be used for initializing the modal view, but it's not utilized in this code snippet.
+
+3. `modalOpen: function (data) { ... },`: Defines the `modalOpen` function, which is responsible for opening the modal window with specific content.
+
+4. `console.log(data)`: Logs the `data` parameter to the console. This might be useful for debugging and understanding the data being passed to the modal.
+
+5. `var _this = this;`: Creates a local variable `_this` to reference the modal view instance within the scope of the function.
+
+6. `var params = "";`: Initializes an empty string variable `params` to hold URL parameters for the iframe content.
+
+7. The conditional statements inside the `modalOpen` function:
+   - Checks the value of `data.callType` (which can be "C", "E", or "R") to determine the appropriate parameters to be added to the URL.
+   - If the callType is "C" (create), it sets the `params` variable to `"callType=C"`.
+   - Otherwise, it constructs a parameter string based on the values of various properties in the `data` object.
+
+8. `console.log("Param",params);`: Logs the constructed parameter string to the console. This might be useful for debugging and understanding the parameters being passed to the iframe.
+
+9. Creating a Kendo Window with an iframe content:
+   - The content of the modal window is created using a `<div>` element containing an `<iframe>`.
+   - The `src` attribute of the `<iframe>` is constructed with the parameter string, and other attributes like `frameborder`, `framespacing`, `width`, and `height` are set.
+   - The content is wrapped in a `<div>` element to provide a block-level container for styling.
+
+10. `_this.arjun = $("<div> ... ").kendoWindow({ ... });`: Initializes a Kendo Window using the created content.
+   - `_this.arjun` stores the Kendo Window instance.
+   - The `kendoWindow` function is called with configuration options for the window.
+   - `height`, `width`, `title`, and `modal` properties are set to define the appearance and behavior of the window.
+
+11. `_this.arjun.data("kendoWindow").center().open();`: Centers and opens the Kendo Window.
+   - `data("kendoWindow")` retrieves the Kendo Window instance.
+   - `center()` centers the window on the screen.
+   - `open()` opens the window for user interaction.
+
+12. `modalClose: function(data){ ... },`: Defines the `modalClose` function, responsible for closing the modal window.
+
+13. `_this.arjun.data("kendoWindow").center().close();`: Centers and closes the Kendo Window.
+   - `data("kendoWindow")` retrieves the Kendo Window instance.
+   - `center()` centers the window for a more visually pleasing close animation.
+   - `close()` closes the window.
+
+In summary, the "Modal View" section sets up a modal window using Kendo UI's window component. It allows opening the modal with specific content based on the provided data and parameters. The modal can be opened, interacted with, and closed using the functions defined in this section.

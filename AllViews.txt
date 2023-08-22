@@ -1,0 +1,36 @@
+
+1. **Search View (`fnObj.searchView`):**
+   - `initView`: Initializes the search view.
+     - Sets up the form target and its `onsubmit` attribute.
+     - Binds a change event handler to the "sc_useYn" input field to trigger a search action when the checkbox value changes.
+   - `getData`: Retrieves search criteria data from the search form.
+     - Returns an object containing pageNumber, pageSize, filter text, department name, and useYn (checkbox value).
+
+2. **Grid View 1 (`fnObj.gridView01`):**
+   - `initView`: Initializes the first grid view.
+     - Sets up the grid target, data source, and various configurations for the grid.
+     - Defines columns, data binding, and additional features like resizing, sorting, and data-bound event handling.
+     - The `change` event handler is invoked when a row is selected to trigger the `grid2view` function.
+     - Defines the `grid2view` function to populate the second grid based on the selected row's department code.
+   - `getSelectRow`: Retrieves selected rows from the grid and returns an array of selected data items.
+
+3. **Grid View 2 (`fnObj.gridView02`):**
+   - `initView`: Initializes the second grid view.
+     - Sets up the grid target, data source, and various configurations.
+     - Defines columns, data binding, and formatting for the grid.
+     - The `dataBound` event handler allows double-clicking on rows to open a modal view for updating user details.
+   - `getData`: Retrieves user data from input fields and returns an object containing user-related information.
+
+4. **Modal View (`fnObj.modalView01`):**
+   - `initView`: Initializes the modal view (not much content here).
+   - `modalOpen`: Opens a modal window with content from a URL, passing parameters based on the provided data.
+
+5. **Form View (`fnObj.formView`):**
+   - `initView`: Initializes the form view.
+     - Binds a change event handler to user-related input fields to set a `flag` variable when changes are made.
+     - Configures the Department Code input field as a Kendo ComboBox with server-side filtering.
+   - `getData`: Retrieves user data from input fields and returns an object containing user-related information.
+   - `validate`: Validates the user data before saving.
+     - Checks if required fields are empty and displays alerts if necessary.
+
+Overall, this code appears to be a part of a web application's front-end JavaScript code that manages a UI for searching, viewing, and editing user and department data. It utilizes Kendo UI components for creating interactive grid views and form views, as well as modal pop-ups for user interactions. The code structure follows an object-oriented approach, where different views are extended from base components to customize behavior.

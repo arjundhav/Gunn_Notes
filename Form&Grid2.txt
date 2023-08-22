@@ -1,0 +1,50 @@
+Certainly, I'll explain each line of the "formView" view and "gridView02" view in your code:
+
+### formView:
+
+1. `fnObj.formView = axboot.viewExtend(axboot.modal, { ... });`: Extends the base `axboot.modal` view to create a custom form view named `formView`.
+
+2. `initView: function () { ... },`: Defines the `initView` function, which initializes the form view.
+
+3. `$("#userNm,#deptCd,#empNo,#useYn,#rankCd,#hpNo,#telNo,#email,#joinCorpDate,#leaveCorpDate,#remark").change(function () { ... })`: Attaches a change event handler to various input elements (with IDs userNm, deptCd, empNo, etc.). When any of these input values change, the `flag` variable is set to `true`, indicating that changes have been made.
+
+4. `$("#deptCd").kendoComboBox({ ... });`: Initializes a Kendo ComboBox widget on the element with ID "deptCd." This combo box is populated with data retrieved from the server using the specified URL. It allows users to select a department.
+
+5. `getData: function () { ... },`: Defines the `getData` function, which retrieves data from the form fields and returns an object containing that data.
+
+6. `validate: function () { ... },`: Defines the `validate` function, which performs form field validation. It checks if certain fields like userCd, userNm, and deptCd are empty or null, and alerts the user accordingly. If all validation checks pass, it returns `true`; otherwise, it returns `false`.
+
+
+### gridView02:
+
+1. `fnObj.gridView02 = axboot.viewExtend(axboot.gridView, { ... });`: Extends the base `axboot.gridView` view to create a custom grid view named `gridView02`.
+
+2. `initView: function () { ... },`: Defines the `initView` function, which initializes the grid view.
+
+3. `_this.target = $('#grid-view-02');`: Sets the `target` property to the jQuery object representing the DOM element with the ID "grid-view-02." This is where the Kendo Grid widget will be initialized.
+
+4. Creating a Kendo DataSource for data retrieval:
+   - `transport.read`: Specifies the URL for data retrieval, which is `/api/v1/STD020/searchUserList`.
+   - `transport.type`: Specifies the HTTP request method as "get."
+   - `transport.dataType`: Specifies the expected data type as JSON.
+   - `transport.complete`: Defines a callback function to be executed after the AJAX request completes.
+   - `parameterMap`: Defines a function that transforms parameters before sending them in the request.
+   - `schema`: Defines the structure of the data returned from the server.
+   - `schema.model`: Defines the model structure for the data.
+   - `error`: Defines an error event handler to handle any errors that occur during data retrieval.
+
+5. Initializing the Kendo Grid widget:
+   - `_this.target.kendoGrid({ ... });`: Initializes the Kendo Grid widget on the target element.
+   - `dataSource`: Specifies the data source for the widget.
+   - Various other options like `height`, `resizable`, `sortable`, `navigatable`, and `editable`.
+
+6. `dataBound: function (e) { ... },`: Defines a data bound event handler that's triggered when data is bound to the grid.
+   - This is where additional logic can be added after the grid's data has been loaded and displayed.
+
+7. `getData: function () { ... },`: Defines the `getData` function, which retrieves 
+data from various input fields and returns an object containing that data.
+
+
+"formView" view manages a form for user data entry and validation.
+
+"gridView02" view sets up a Kendo Grid widget to display user data in a tab format,data retrieval through AJAX requests and event handlers for data binding.

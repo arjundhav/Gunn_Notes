@@ -1,0 +1,112 @@
+Certainly, I'll explain each line of the "gridView01" view in your code:
+
+/**
+ * gridView
+ */
+
+fnObj.gridView01 = axboot.viewExtend(axboot.gridView, {
+
+    initView: function () {
+        var _this = this;
+
+        // Initialize the target element for the grid view
+        _this.target = $('#grid-view-01');
+
+        // Create a Kendo TreeListDataSource for data retrieval
+        _this.dataSource = new kendo.data.TreeListDataSource({
+            transport: {
+                read: {
+                    url: '/api/v1/STD020/searchList',
+                    type: 'get',
+                    dataType: 'json',
+                    complete: function (res) {
+                        console.log(res.responseJSON);
+                    }
+                },
+                parameterMap: function (options, operation) {
+                    if (operation == 'read') {
+                        var gd = $.extend({}, fnObj.searchView.getData());
+                        return gd;
+                    }
+                }
+            },
+            schema: {
+                model: {
+                    parentId: "upperId",
+                    fields: {
+                        upperId: { type: "string", nullable: true },
+                        useYn: { type: 'string', nullable: true, editable: false }
+                    },
+                    expanded: true
+                }
+            },
+            error: function (e) {
+                console.log('error event handler', e);
+            }
+        });
+
+        // Initialize the Kendo TreeList widget
+        _this.target.kendoTreeList({
+            dataSource: _this.dataSource,
+            autoBind: false,
+            selectable: true,
+            scrollable: true,
+            editable: true,
+            resizable: true,
+            sortable: true,
+            change: _this.grid2view,
+            columns: [
+                { field: 'deptCd', title: LANG("mes.txt.dept.code"), attributes: { style: "text-align:left;" }, editable: false },
+                { field: 'deptNm', title: LANG("mes.txt.dept.name") },
+                // ... (other column definitions)
+            ],
+            dataBound: function (e) {
+                // ... (data bound event handler)
+            },
+        });
+
+        // Store the Kendo TreeList instance
+        _this.grid = _this.target.data('kendoTreeList');
+    },
+
+    // ... (other functions and event handlers)
+});
+
+Here's a detailed explanation of each part of the "gridView01" view:
+
+1. `fnObj.gridView01 = axboot.viewExtend(axboot.gridView, { ... });`: Extends the base `axboot.gridView` view to create a custom grid view named `gridView01`.
+
+2. `initView: function () { ... },`: Defines the `initView` function, which initializes the grid view.
+
+3. `var _this = this;`: Creates a local variable `_this` to reference the grid view instance within the scope of the function.
+
+4. `_this.target = $('#grid-view-01');`: Sets the `target` property to the jQuery object representing the DOM element with the ID "grid-view-01." This is the element where the Kendo TreeList widget will be initialized.
+
+5. Creating a Kendo TreeListDataSource for data retrieval:
+   - `transport.read`: Specifies the URL for data retrieval, which is `/api/v1/STD020/searchList`.
+   - `transport.type`: Specifies the HTTP request method as "get."
+   - `transport.dataType`: Specifies the expected data type as JSON.
+   - `transport.complete`: Defines a callback function to be executed after the AJAX request completes.
+   - `parameterMap`: Defines a function that transforms parameters before sending them in the request.
+   - `schema`: Defines the structure of the data returned from the server.
+   - `schema.model`: Defines the model structure for the data.
+   - `schema.model.parentId`: Specifies the field that represents the parent ID for hierarchical data.
+   - `schema.model.fields`: Defines the fields available in the data.
+   - `schema.model.expanded`: Specifies that all nodes should be expanded by default.
+   - `error`: Defines an error event handler to handle any errors that occur during data retrieval.
+
+6. Initializing the Kendo TreeList widget:
+   - `_this.target.kendoTreeList({ ... });`: Initializes the Kendo TreeList widget on the target element.
+   - `dataSource`: Specifies the data source for the widget.
+   - `autoBind`: Specifies whether the widget should automatically bind to the data source.
+   - `selectable`: Enables row selection in the grid.
+   - `scrollable`, `editable`, `resizable`, and `sortable`: Define various grid features.
+   - `change`: Specifies the event handler to be triggered when the selection changes.
+   - `columns`: Defines the columns to be displayed in the grid. Each column is defined by an object containing properties like `field`, `title`, and `editable`.
+
+7. `dataBound: function (e) { ... },`: Defines a data bound event handler that's triggered when data is bound to the grid.
+   - This is where additional logic can be added after the grid's data has been loaded and displayed.
+
+8. `_this.grid = _this.target.data('kendoTreeList');`: Stores the Kendo TreeList instance in the `grid` property. This allows you to interact with the grid programmatically.
+
+In summary, the "gridView01" view sets up a Kendo TreeList widget to display hierarchical data in a grid format. It defines the data source, columns, and various features of the grid. The data retrieval is handled through AJAX requests, and events such as data binding and row selection can be customized through event handlers.
